@@ -1,16 +1,14 @@
 package com.everisbootcamp.accountcommission.Services;
 
-import com.everisbootcamp.accountcommission.Interface.CommissionRepository;
+import com.everisbootcamp.accountcommission.Constants.Exxecutors; 
 import com.everisbootcamp.accountcommission.Model.AccountModel;
 import com.everisbootcamp.accountcommission.Web.Consumer;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.TimerTask;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.Executors; 
 import java.util.concurrent.TimeUnit;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j; 
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 
@@ -19,9 +17,7 @@ import reactor.core.publisher.Flux;
 public class CommissionService {
 
     //@Autowired
-    //private CommissionRepository repository;
-
-    private static ScheduledExecutorService executor = null;
+    //private CommissionRepository repository; 
 
     private Flux<AccountModel> findAllAccount() {
         return Consumer.webClientAccount
@@ -37,24 +33,23 @@ public class CommissionService {
         TimerTask timertask = new TimerTask() {
             @Override
             public void run() {
-                log.info(" -" + number + date.getDayOfMonth() + date2.getDay());
+                log.info(" -numero: " + number + " -fecha de creación: " + date.getDayOfMonth() +" -dia de hoy:"+ date2.getDate() );
                 //repository.save(null).subscribe();
             }
         };
-
-        executor = Executors.newScheduledThreadPool(1);
-        executor.scheduleAtFixedRate(timertask, 1, 1, TimeUnit.SECONDS);
-        //executor.shutdown();
+ 
+        Exxecutors.executor = Executors.newScheduledThreadPool(1);
+        Exxecutors.executor.scheduleAtFixedRate(timertask, 1, 1, TimeUnit.SECONDS); 
     }
 
     public void ChargeCommision() {
-        findAllAccount()
-            .toStream()
-            .filter(ac -> ac.getRules().isCommissionMaintenance())
-            .filter(acc -> acc.getAmount() >= 1)
-            .map(ac -> {
-                registerCommission(ac.getIdaccount(), ac.getDatecreated());
-                return ac;
-            });
+        log.info(findAllAccount()
+        .toStream()
+        .filter(ac -> ac.getRules().isCommissionMaintenance())
+        .filter(acc -> acc.getAmount() >= 1)
+        .map(ac -> {
+            registerCommission(ac.getIdaccount(), ac.getDatecreated());
+            return ac;
+        }).count()+"");
     }
 }

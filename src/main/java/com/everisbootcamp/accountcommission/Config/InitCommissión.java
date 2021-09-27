@@ -1,4 +1,4 @@
-package com.everisbootcamp.accountcommission.Start;
+package com.everisbootcamp.accountcommission.Config;
 
 import com.everisbootcamp.accountcommission.Services.CommissionService;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +15,7 @@ public class InitCommissión implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        service.ChargeCommision();
         log.info("SERVICE CHARGE COMMISSION BY ACCOUNT ENABLED");
+        service.ChargeCommision();
     }
 }

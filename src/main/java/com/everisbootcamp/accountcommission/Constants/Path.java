@@ -1,4 +1,4 @@
-package com.everisbootcamp.accountcommission.Constans;
+package com.everisbootcamp.accountcommission.Constants;
 
 public class Path {
 
