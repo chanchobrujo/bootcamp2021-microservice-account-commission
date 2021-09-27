@@ -35,12 +35,14 @@ public class CommissionService {
             public void run() {
                 if (dateNow.getDayOfMonth() == 15) {
                     Mono<Commission> commission = repository.findByNumberaccount(numberaccount);
-                    if (commission.block() != null) {
-                        if (
+                    if (
+                        (
+                            commission.block() != null &&
                             commission.block().getDatecreated().getMonth().getValue() !=
                             dateNow.getMonthValue()
-                        ) repository.save(new Commission(numberaccount, 1)).subscribe();
-                    } else {
+                        ) ||
+                        commission.block() == null
+                    ) {
                         repository.save(new Commission(numberaccount, 1)).subscribe();
                     }
                 }
