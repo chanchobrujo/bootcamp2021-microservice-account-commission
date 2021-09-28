@@ -42,9 +42,7 @@ public class CommissionService {
                             dateNow.getMonthValue()
                         ) ||
                         commission.block() == null
-                    ) {
-                        repository.save(new Commission(numberaccount, 1)).subscribe();
-                    }
+                    ) repository.save(new Commission(numberaccount, 1)).subscribe(); 
                 }
             }
         };
